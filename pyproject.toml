@@ -1,0 +1,79 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+  "types-requests>=2.32.4.20260107"
+]
+
+[project]
+name = "elk-tool"
+version = "0.1.0"
+description = "CLI tool for querying and managing Elasticsearch"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+authors = [
+  { name = "Vlad Korolev", email = "vlad@v-lad.org" }
+]
+keywords = ["elasticsearch", "cli", "elk", "logging", "search", "cluster-management"]
+dependencies = [
+  "pydantic>=2.0.0",
+  "requests>=2.31.0",
+  "rich>=13.0.0",
+  "sentry-sdk>=1.40.0",
+  "typer>=0.12.0"
+]
+
+[project.urls]
+Repository = "https://github.com/vladistan/elk-cli"
+Homepage = "https://github.com/vladistan/elk-cli"
+"Bug Tracker" = "https://github.com/vladistan/elk-cli/issues"
+
+[project.optional-dependencies]
+dev = [
+  "mypy>=1.0.0",
+  "pytest>=8.0.0",
+  "pytest-cov>=4.0.0",
+  "ruff>=0.4.0",
+  "types-requests>=2.31.0"
+]
+
+[project.scripts]
+elk-tool = "elk_tool.ui.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/elk_tool"]
+
+[tool.mypy]
+strict = true
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+exclude = ["tests/"]
+
+[[tool.mypy.overrides]]
+module = "sentry_sdk.*"
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "--strict-markers --tb=short"
+markers = [
+  "integration: marks tests as integration tests (requires real ELK instance)",
+  "slow: marks tests as slow running (>1s)",
+  "unit: marks tests as unit tests (fast, no external dependencies)"
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP", "B", "C4", "SIM", "PTH", "RUF", "S"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]

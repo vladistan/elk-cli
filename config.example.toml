@@ -1,0 +1,27 @@
+# elk-tool configuration
+# Copy to ~/.config/elk-tool/config.toml and customize
+#
+# Precedence (highest to lowest):
+# 1. CLI flags (--profile)
+# 2. Environment variables (ELK_URL, ELASTIC_API_KEY, ELK_PROFILE)
+# 3. This config file
+# 4. Built-in defaults
+
+# Default profile to use when --profile and ELK_PROFILE are not set
+default_profile = "default"
+
+[profiles.default]
+# Elasticsearch endpoint URL
+url = "https://elasticsearch.example.com:9200"
+# Authentication - API key (preferred)
+api_key = "your-api-key-here" # pragma: allowlist secret
+# Request timeout in seconds
+timeout = 30
+# Verify TLS certificates (set to false for self-signed certs)
+verify_tls = true
+
+# Example: local development profile
+# [profiles.local]
+# url = "http://localhost:9200"
+# timeout = 10
+# verify_tls = false
