@@ -43,6 +43,7 @@ from elk_tool.presentation.output import (
 )
 from elk_tool.presentation.prompts import confirm_cleanup, confirm_deletion
 from elk_tool.testing.commands import run_sentry_test
+from elk_tool.ui.commands.config import config_app
 
 app = typer.Typer(
     help="ELK Tool - Query and manage Elasticsearch data.",
@@ -52,6 +53,9 @@ app = typer.Typer(
 # Sub-app for test commands
 test_app = typer.Typer(help="Test commands for verifying integrations.")
 app.add_typer(test_app, name="test")
+
+# Sub-app for config commands
+app.add_typer(config_app, name="config")
 
 
 def version_callback(value: bool) -> None:
